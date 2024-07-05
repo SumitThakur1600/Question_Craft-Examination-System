@@ -539,17 +539,21 @@ app.get('/api/papers/count', async (req, res) => {
       return res.status(400).json({ error: 'Username parameter is required' });
     }
 
-    // Connect to MongoDB
-    await mongoose.connect(mongoURI, {
+    const client = new MongoClient(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
     });
 
+    // Connect to MongoDB using the MongoClient
+    await client.connect();
+
+    // Access the database and collection
+    const db = client.db('Question'); // Replace 'Question' with your actual database name
+    const papersCollection = db.collection('papers');
+
     // Query to count papers where teacherUsername matches the provided username
-    const count = await Paper.countDocuments({ teacherUsername: username });
-    console.log(`COUNT VALUE FOR ${username} IS `, count); // Log the count value
+    const count = await papersCollection.countDocuments({ teacherUsername: username });
+    console.log(`COUNT VALUE FOR ${username} IS ${count}`); // Log the count value
 
     // Send response with count
     res.json({ count });
@@ -795,13 +799,21 @@ app.post('/api/students/countno', async (req, res) => {
     if (!username) {
       return res.status(404).json({ error: 'Username parameter is required' });
     }
-    await mongoose.connect(mongoURI, {
+    const client = new MongoClient(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
     });
-    const count = await StudentTest.countDocuments({ teacherUsername: username });
+
+    // Connect to MongoDB using the MongoClient
+    await client.connect();
+
+    // Access the 'Question' database and the 'studentTests' collection
+    const db = client.db('Question');
+    const studentTestsCollection = db.collection('studenttests');
+
+    // Query to count documents where teacherUsername matches the provided username
+    const count = await studentTestsCollection.countDocuments({ teacherUsername: username });
+
     console.log(`COUNT FOR ${username} IS `, count); // Log the count value
     res.json({ count });
   } catch (error) {
@@ -818,15 +830,18 @@ app.post('/api/studenttestinfo', async (req, res) => {
     }
 
     // Ensure to establish MongoDB connection before querying
-    await mongoose.connect(mongoURI, {
+    const client = new MongoClient(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
     });
 
-    // Fetch student tests based on teacherUsername matching username
-    const studentTests = await StudentTest.find({ teacherUsername: username });
+    // Connect to MongoDB using the MongoClient
+    await client.connect();
+
+    // Access the 'Question' database and the 'studentTests' collection
+    const db = client.db('Question');
+    const studentTestsCollection = db.collection('studenttests'); // Corrected collection name
+    const studentTests = await studentTestsCollection.find({ teacherUsername: username }).toArray();
 
     // Format the fetched data for response
     const formattedStudentTests = studentTests.map(test => ({
@@ -847,12 +862,6 @@ app.post('/api/studenttestinfo', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-
-
-
-
-
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
