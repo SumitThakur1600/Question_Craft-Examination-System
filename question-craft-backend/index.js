@@ -863,6 +863,29 @@ app.post('/api/studenttestinfo', async (req, res) => {
   }
 });
 
+app.get('/checkPaperName', async (req, res) => {
+  const { paperName } = req.query;
+  try {
+    const client = new MongoClient(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    await client.connect();
+    const db = client.db('Question'); 
+    const papersCollection = db.collection('papers');
+      const paper = await papersCollection.findOne({ paperName: paperName });
+      if (paper) {
+          res.json({ exists: true });
+      } else {
+          res.json({ exists: false });
+      }
+  } catch (error) {
+      console.error('Error checking paper name:', error);
+      res.status(500).json({ exists: true, message: 'Error checking paper name' });
+  }
+});
+
+
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });

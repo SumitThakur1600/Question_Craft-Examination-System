@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FormatValidationNew from './FormatValidationNew';
-
+import { useEffect } from 'react';
 const FileUploadComp = ({ username }) => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [paperName, setPaperName] = useState('');
@@ -13,7 +13,18 @@ const FileUploadComp = ({ username }) => {
         setB: null,
         setC: null
     });
+    const [retrievedPaperName, setRetrievedPaperName] = useState('');
     const [showInstructions, setShowInstructions] = useState(true); // Track whether to show instructions
+
+    useEffect(() => {
+        if (errorMessage) {
+            const timer = setTimeout(() => {
+                setErrorMessage('');
+            }, 2000); // Clear the error message after 5 seconds
+
+            return () => clearTimeout(timer); // Clear timer if the component is unmounted or if errorMessage changes
+        }
+    }, [errorMessage]);
 
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -34,7 +45,19 @@ const FileUploadComp = ({ username }) => {
         setErrorMessage('');
     };
 
-    const handleUpload = () => {
+    const checkDuplicatePaperName = async (name) => {
+        try {
+            const response = await fetch('${process.env.REACT_APP_BACKEND_URL}/checkPaperName?paperName=${encodeURIComponent(name)}');
+            const data = await response.json();
+            return data.exists; // Assuming the response contains an 'exists' field indicating duplication
+        } catch (error) {
+            console.error('Error checking paper name:', error);
+            setErrorMessage('Error checking paper name');
+            return true;
+        }
+    };
+
+    const handleUpload = async () => {
         console.log("Upload button clicked");
         if (!selectedFile) {
             setErrorMessage('Please select a file.');
@@ -45,7 +68,12 @@ const FileUploadComp = ({ username }) => {
             setErrorMessage('Paper Name is required.');
             return;
         }
-
+        const fullpaperName = `${paperName}_${username}`;
+        const isDuplicate = await checkDuplicatePaperName(fullpaperName);
+        if (isDuplicate) {
+            setErrorMessage('Paper Name already exists. Please choose a different name.');
+            return;
+        }
         new FormatValidationNew().validateFile(selectedFile, handleValidationComplete);
     };
 
@@ -88,7 +116,7 @@ const FileUploadComp = ({ username }) => {
                     setB: setB ? setB.uniqueCode : null,
                     setC: setC ? setC.uniqueCode : null
                 });
-
+                setRetrievedPaperName(data.specialData.paperName || '');
                 // Hide instructions if all unique codes are received
                 setShowInstructions(false);
                 setSelectedFile(null);
@@ -149,6 +177,7 @@ const FileUploadComp = ({ username }) => {
                         <p><strong>Set A:</strong> {uniqueCodes.setA}</p>
                         <p><strong>Set B:</strong> {uniqueCodes.setB}</p>
                         <p><strong>Set C:</strong> {uniqueCodes.setC}</p>
+                        <p><strong>Paper Name:</strong>{retrievedPaperName}</p>
                     </div>
                 </div>
             )}
