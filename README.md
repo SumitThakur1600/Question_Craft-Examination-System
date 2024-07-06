@@ -1,70 +1,117 @@
-# Getting Started with Create React App
+# Question_Craft (Examination System)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
+QuestionCraft is a comprehensive web application designed to revolutionize educational exam management for teachers and students. Teachers can log in to a dynamic dashboard to add, edit, and manage questions in a centralized question bank, generate and partition exam papers into three distinct sets with unique codes, and upload questions via Excel files. They can track all generated papers, monitor student participation, and view performance analytics, including the number of students who have taken each test, total tests created, and top performers. When creating tests, teachers receive unique codes for each set and provide students with these codes and paper names during account creation. Students create accounts using the unique code and paper name, log in to view all tests, and use their unique and registered codes to access the test page entrance. The user-friendly interface ensures seamless navigation, making the exam process efficient and streamlined. QuestionCraft is the ideal solution for schools and educational institutions aiming to modernize their exam management processes.
+## Features
+### Features of QuestionCraft
 
-## Available Scripts
+1. **Teacher Dashboard:**
+   - **Student Performance Tracking:** Teachers can see the number of students who have taken tests and the total number of tests created.
+   - **Student Information:** Access detailed student info and top performance metrics.
+   - **Test Creation:** Teachers can create tests and receive a unique code for each set. This code is provided to students for test access.
+   - **Question Partitioning:** Teachers can view questions partitioned into different sets for focused review.
 
-In the project directory, you can run:
+2. **Student Account Management:**
+   - **Account Creation:** During account creation, students are required to provide a paper name and a unique code issued by their teacher. This ensures secure access to tests and enables teachers to manage student participation effectively.
+   - **Login and Access:** Once registered, students can log in to their dashboard.
 
-### `npm start`
+3. **Student Dashboard:**
+   - **Test List:** Students can see all tests created so far.
+   - **Test Access:** Input fields for entering the unique code (provided by teachers) and registered code (given after account creation) to access the test page.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+4. **Test Participation:**
+   - **Test Page:** After entering the unique code and registered code, students can access the test screen and participate in exams.Upon entering the required codes, students gain access to the test screen to participate in exams. Attempting to exit the screen during the test triggers an automatic submission when the time limit expires, ensuring integrity and completion.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Technology Used:
 
-### `npm test`
+- **Frontend:** QuestionCraft utilizes ReactJS, a powerful JavaScript library for building user interfaces. ReactJS enables the creation of dynamic and responsive frontend components, ensuring a smooth user experience for teachers and students.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Backend:** The backend of QuestionCraft is powered by Node.js, a server-side JavaScript runtime. Express.js, a popular framework for Node.js, is used to handle server-side logic, routing, and API integrations. This combination allows QuestionCraft to manage authentication, data processing, and communication between the frontend and backend seamlessly.
 
-### `npm run build`
+- **Database:** QuestionCraft employs MongoDB as its database solution. MongoDB is a distributed NoSQL database known for its flexibility, scalability, and performance. It stores and manages various types of data required by QuestionCraft, including exam configurations, student information, test results, and more. Its distributed nature ensures high availability and fault tolerance, crucial for an application handling exam management and student data.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## GUIDE
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Prerequisites:
+- **Node.js and npm:** Required to run the backend server and manage dependencies.
+- **MongoDB:** Used as the database backend for QuestionCraft.
+- **Git:** Necessary for cloning the project repository from version control.
 
-### `npm run eject`
+### Step-by-Step Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Clone the Repository**
+   ```bash
+   git clone <repository-url>
+   cd Question_Craft-Examination-System
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Backend Setup**
+   - Navigate to the backend directory:
+     ```bash
+     cd question-craft-backend(Name of Backend)
+     ```
+   - Install backend dependencies:
+     ```bash
+     npm install
+     ```
+   - Create a `.env` file in the `backend` directory and configure environment variables such as MongoDB URI , PORT And REACT_APP_FRONTEND_URL  .
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. **Frontend Setup**
+   - Open a new terminal window.
+   - Navigate to the frontend directory:
+     ```bash
+     cd Question_Craft-Examination-System(Name of Project)
+     ```
+   - Install frontend dependencies:
+     ```bash
+     npm install
+     ```
+    - Create a `.env` file in the `frontend` directory and configure environment variables such as REACT_APP_BACKEND_URL  .
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+4. **MongoDB Setup**
+   - Ensure MongoDB is installed and running.
+   - Configure MongoDB URI in the `.env` file located in the backend directory.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5. **Start the Application**
+   - Start the backend server:
+     ```bash
+     npm start
+     ```
+   - Start the frontend development server in another terminal window:
+     ```bash
+     npm start
+     ```
+   - Access QuestionCraft in your web browser.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+MongoDB is used as the database backend for QuestionCraft due to its:
 
-### Code Splitting
+- **Flexibility:** MongoDB's document-based model allows for flexible and schema-free data storage, which is ideal for managing various types of data related to exams, questions, students, and results.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- **Scalability:** MongoDB's ability to scale horizontally across multiple servers or clusters ensures high availability and fault tolerance, crucial for applications like QuestionCraft that may experience rapid growth in data volume and user interactions.
 
-### Analyzing the Bundle Size
+- **Performance:** MongoDB's indexing, query optimization, and in-memory storage engine (WiredTiger) ensure efficient data retrieval and processing, optimizing performance for concurrent exam sessions and student interactions.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- **Integration with Node.js:** MongoDB integrates seamlessly with Node.js applications through its native driver and Mongoose ORM, facilitating efficient data manipulation, query execution, and transaction management in QuestionCraft's backend.
+- 
+---
 
-### Making a Progressive Web App
+## Future Enhancements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- **Enhanced Analytics:** Implement more advanced analytics and visualizations to provide deeper insights into student performance trends and assessment outcomes.
 
-### Advanced Configuration
+- **Mobile Application:** Develop a dedicated mobile app for both teachers and students, allowing easy access to exams, results, and notifications on smartphones and tablets.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- **Advanced Security Features:** Enhance security measures with features like two-factor authentication (2FA), data encryption, and role-based access control (RBAC) to ensure the privacy and integrity of exam data.
 
-### Deployment
+- **Real-time Collaboration:** Introduce real-time collaboration capabilities for teachers, enabling them to co-author exams, share resources, and provide feedback synchronously.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- **Accessibility Improvements:** Improve accessibility features to meet WCAG standards, ensuring inclusivity and usability for users with disabilities.
 
-### `npm run build` fails to minify
+# Project Complete
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Congratulations on completing QuestionCraft, your comprehensive web application for educational exam management! Here’s a quick recap of what you’ve accomplished:
+
+---
