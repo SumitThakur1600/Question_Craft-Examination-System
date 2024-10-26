@@ -29,7 +29,7 @@ const TeacherDashboard = ({ setShowNavButtons }) => {
 
         const fetchTotalStudents = async () => {
             try {
-                const response = await axios.post('https://papersystem.onrender.com/api/students/countno', {
+                const response = await axios.post('${process.env.REACT_APP_BACKEND_URL}/api/students/countno', {
                     username: username
                 });
                 setTotalStudents(response.data.count);
@@ -40,7 +40,7 @@ const TeacherDashboard = ({ setShowNavButtons }) => {
 
         const fetchStudentTests = async () => {
             try {
-                const response = await axios.post('https://papersystem.onrender.com/api/studenttestinfo', {
+                const response = await axios.post('${process.env.REACT_APP_BACKEND_URL}/api/studenttestinfo', {
                     username: username
                 });
                 const updatedStudentTests = response.data.map(test => ({
